@@ -24,10 +24,10 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"conky", NULL,
+	"sh", "-c", "conky", NULL,
 	"sh", "-c", "/home/ganome/fixdisplay.sh", NULL,
 	"nitrogen", "--restore", NULL,
-	"picom", "-b", "--config ~/.config/picom.conf", NULL,
+	"sh", "-c", "picom", "-b", "--config ~/.config/picom.conf", NULL,
 	"sh", "-c", "/home/ganome/.dwm/clock.sh", NULL,
 	NULL /* terminate */
 };
