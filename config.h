@@ -24,7 +24,11 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"st", NULL,
+	"conky", NULL,
+	"sh", "-c", "/home/ganome/fixdisplay.sh", NULL,
+	"nitrogen", "--restore", NULL,
+	"picom", "-b", "--config ~/.config/picom.conf", NULL,
+	"sh", "-c", "/home/ganome/.dwm/clock.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -71,7 +75,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char *roficmd[] = { "rofi", "-show-icons", "-show", "drun" };
 static const char *termcmd[]  = { "terminator", NULL };
-static const char *screenshot[] = { "scrot", "-upd", "3", "%d-%m-%Y_%H:%M:%S_screenshot.png", "-e", "mv $f ~/Screenshots/", NULL };
+static const char *PrintScreenDWM[] = { "scrot", "-upd", "3", "%d-%m-%Y_%H:%M:%S_screenshot.png", "-e", "mv $f ~/Screenshots/", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
@@ -115,6 +119,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_r,      quit,           {1} },
+	{ 0,    			PrintScreenDWM, spawn,	   {.v = PrintScreenDWM } },
 };
 
 /* button definitions */
