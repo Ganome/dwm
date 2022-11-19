@@ -24,7 +24,11 @@ static const char *colors[][3]      = {
 };
 
 static const char *const autostart[] = {
-	"st", NULL,
+	"sh", "-c", "conky", NULL,
+	"sh", "-c", "/home/ganome/fixdisplay.sh", NULL,
+	"nitrogen", "--restore", NULL,
+	"sh", "-c", "picom", "-b", "--config ~/.config/picom.conf", NULL,
+	"sh", "-c", "/home/ganome/.dwm/clock.sh", NULL,
 	NULL /* terminate */
 };
 
@@ -54,6 +58,7 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 	{ "HHH",      grid },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -68,13 +73,14 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *roficmd[] = { "rofi", "-show-icons", "-show", "drun" };
 static const char *termcmd[]  = { "terminator", NULL };
+static const char *PrintScreenDWM[] = { "scrot", "-upd", "3", "%d-%m-%Y_%H:%M:%S_screenshot.png", "-e", "mv $f ~/Screenshots/", NULL };
 
 #include "movestack.c"
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = roficmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -92,6 +98,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -111,6 +119,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_r,      quit,           {1} },
+	{ 0,    			PrintScreenDWM, spawn,	   {.v = PrintScreenDWM } },
 };
 
 /* button definitions */
